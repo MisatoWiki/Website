@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile page</title>
+</head>
+
+<body>
+  <h1>Hello, world!</h1>
+  <h2>Username: {{ username }}</h2>
+  <h2>UUID: {{ uuid }}</h2>
+</body>
+
+</html>

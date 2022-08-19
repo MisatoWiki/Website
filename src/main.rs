@@ -3,7 +3,12 @@ use std::collections::HashMap;
 use rocket::{fs::FileServer, *};
 use rocket_dyn_templates::Template;
 
-mod session;
+mod settings;
+use settings::Settings;
+
+mod fairings;
+
+mod requests;
 
 #[get("/")]
 async fn index() -> Template {
@@ -13,20 +18,24 @@ async fn index() -> Template {
 
 #[launch]
 fn rocket() -> _ {
+    let settings = Settings::init();
     let mut routes: Vec<Route> = Vec::new();
 
     routes.append(&mut routes![index]);
 
     routes.append(&mut routes![
-        session::signup,
-        session::login,
-        session::session,
-        session::signup_request,
-        session::profile
+        requests::signup::signup,
+        requests::login::login,
+        requests::login::login_request,
+        requests::signup::signup_request,
+        requests::delete::delete,
+        requests::delete::delete_request,
+        requests::account::account,
     ]);
 
     rocket::build()
         .mount("/", routes)
         .mount("/", FileServer::from("public/"))
+        .manage(settings)
         .attach(Template::fairing())
 }
